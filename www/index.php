@@ -5,15 +5,37 @@
     $firstnameError = $lastnameError = $subjectError = $emailError = $messageError = "";
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
+        //firstname
         $firstname =  isset ($_POST["firstname"]) ? checkInput($_POST["firstname"]) : "";
+        if (empty ($firstname)) {
+
+            $firstnameError = "Veuillez renseigner votre prénom";
+        }
+
+        //lastname
         $lastname = isset ($_POST["lastname"]) ? checkInput($_POST["lastname"]) : "";
+        if (empty ($lastname)) {
+
+            $lastnameError = "Veuillez renseigner votre nom";
+        }
+
+        //sujet
         $subject = isset ($_POST["subject"]) ? checkInput($_POST["subject"]) : "";
+        if (empty ($subject)) {
+
+            $subjectError = "Veuillez renseigner le sujet";
+        }
+
+        //email
         $email = isset ($_POST["email"]) ? checkInput($_POST["email"]) : "";
-        $message = isset ($_POST["message"]) ? checkInput($_POST["message"]) : "";
         if(!isEmail($email)){
             $emailError = "Veuillez vérifier votre email.";
         }
-        $message = isset($_POST["message"]) ? checkInput($_POST["message"]) : "";
+        $message = isset ($_POST["message"]) ? checkInput($_POST["message"]) : "";
+        if (empty ($message)) {
+
+            $messageError = "Veuillez écrire votre message";
+        }
 
     }else{
         echo "Pas POST";
@@ -33,6 +55,11 @@
     function isEmail($email){
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
+
+    function getError($error){
+        $html = '<p class="error">' . $error . '</p>';
+        return $html;
+    }
 ?>
 <!doctype html>
 <html lang="fr">
@@ -47,15 +74,39 @@
 <body>
     <div id="formulaire"> 
         <form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
-            <input type="text" name="firstname" value="<?php echo $firstname ?>"placeholder="Prénom" required>
-            <input type="text" name="lastname" value="<?php echo $lastname ?>" placeholder="Nom" required>
-            <input type="text" name="subject" value="<?php echo $subject ?>" placeholder="Sujet" required>
-            <input type="email" name="email" value="<?php echo $email ?>" placeholder="exemple@email.com" required>
+            <input type="text" name="firstname" value="<?php echo $firstname ?>"placeholder="Prénom" <?php echo !IS_DEBUG ? "required" : "" ?>>
+            <?php
+                if($firstnameError !=""){
+                    echo getError($firstnameError);
+                }
+            
+            ?>
+            <input type="text" name="lastname" value="<?php echo $lastname ?>" placeholder="Nom" <?php echo !IS_DEBUG ? "required" : "" ?>>
+            <?php
+                if($lastnameError !=""){
+                    echo getError($lastnameError);
+                }
+            
+            ?>
+            <input type="text" name="subject" value="<?php echo $subject ?>" placeholder="Sujet" <?php echo !IS_DEBUG ? "required" : "" ?>>
+            <?php
+                if($subjectError !=""){
+                    echo getError($subjectError);
+                }
+            
+            ?>
+            <input type="email" name="email" value="<?php echo $email ?>" placeholder="exemple@email.com" <?php echo !IS_DEBUG ? "required" : "" ?>>
             <!-- <p class="error">Veuillez vérifier votre email</p> -->
-            <textarea name="message" id="" cols="30" rows="10" required placeholder="Votre message"><?php echo $message ?></textarea>
             <?php
                 if($emailError !=""){
-                    echo '<p class="error">' . $emailError . '</p>';
+                    echo getError($emailError);
+                }
+            
+            ?>
+            <textarea name="message" id="" cols="30" rows="10"  placeholder="Votre message" <?php echo !IS_DEBUG ? "required" : "" ?>><?php echo $message ?></textarea>
+            <?php
+                if($messageError !=""){
+                    echo getError($messageError);
                 }
             
             ?>
