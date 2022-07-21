@@ -3,27 +3,28 @@
 
     $firstname = $lastname = $subject = $email = $message = ""; 
     $firstnameError = $lastnameError = $subjectError = $emailError = $messageError = "";
+    $noError = true;
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         //firstname
         $firstname =  isset ($_POST["firstname"]) ? checkInput($_POST["firstname"]) : "";
         if (empty ($firstname)) {
-
             $firstnameError = "Veuillez renseigner votre prénom";
+            $noError = false;
         }
 
         //lastname
         $lastname = isset ($_POST["lastname"]) ? checkInput($_POST["lastname"]) : "";
         if (empty ($lastname)) {
-
             $lastnameError = "Veuillez renseigner votre nom";
+            $noError = false;
         }
 
         //sujet
         $subject = isset ($_POST["subject"]) ? checkInput($_POST["subject"]) : "";
         if (empty ($subject)) {
-
             $subjectError = "Veuillez renseigner le sujet";
+            $noError = false;
         }
 
         //email
@@ -33,8 +34,8 @@
         }
         $message = isset ($_POST["message"]) ? checkInput($_POST["message"]) : "";
         if (empty ($message)) {
-
             $messageError = "Veuillez écrire votre message";
+            $noError = false;
         }
 
     }else{
@@ -72,6 +73,7 @@
 </head>
 
 <body>
+
     <div id="formulaire"> 
         <form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
             <input type="text" name="firstname" value="<?php echo $firstname ?>"placeholder="Prénom" <?php echo !IS_DEBUG ? "required" : "" ?>>
