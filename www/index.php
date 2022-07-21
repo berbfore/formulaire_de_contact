@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <div id="formulaire">
+    <div id="formulaire"> 
         <form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
             <input type="firstname" placeholder="Prénom" required>
             <input type="lastname" placeholder="Nom" required>
