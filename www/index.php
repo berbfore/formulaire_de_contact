@@ -1,11 +1,13 @@
 <?php
-    define("IS_DEBUG", $_SERVER["HTTP_HOST"] == "localhost" ? true : false);
+    // define("IS_DEBUG", $_SERVER["HTTP_HOST"] == "localhost" ? true : false);
 
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
+    // $firstname = $lastname = $subject = 
 
-    }else{
-        echo "Pas POST";
-    }
+    // if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    // }else{
+    //     echo "Pas POST";
+    // }
 
 ?>
 <!doctype html>
@@ -21,12 +23,12 @@
 <body>
     <div id="formulaire">
         <form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
-            
-            <input type="firstname" placeholder="Prenom" required>
-            <input type="name" placeholder="nom" required>
-            <input type="subject" placeholder="sujet" required>
+            <input type="firstname" placeholder="Prénom" required>
+            <input type="lastname" placeholder="Nom" required>
+            <input type="subject" placeholder="Sujet" required>
             <input type="email" placeholder="exemple@email.com" required>
-            <div id="select"> 
+            <textarea name="message" id="" cols="30" rows="10" required placeholder="Votre message"></textarea>
+            <!-- <div id="select"> 
             <select name="date">
                 <option>1</option>
                 <option>2</option>
@@ -48,7 +50,7 @@
                 <option> 2024</option>
                 <option> 2025</option>
             </select>
-            </div>
+            </div> -->
             <input type="submit" value="ENVOYER">
         </form>
     </div>

@@ -7,9 +7,10 @@ form {
 }
 
 input,
-select {
+select, textarea{
     display: block;
     margin: auto;
+    
 }
 
 #select {
