@@ -1,13 +1,18 @@
 <?php
-    // define("IS_DEBUG", $_SERVER["HTTP_HOST"] == "localhost" ? true : false);
+    define("IS_DEBUG", $_SERVER["HTTP_HOST"] == "localhost" ? true : false);
 
-    // $firstname = $lastname = $subject = 
+    $firstname = $lastname = $subject = $email = $message; 
 
-    // if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $firstname = $_POST["firstname"];
+        $lastname = $_POST["lastname"];
+        $subject = $_POST["subject"];
+        $email = $_POST["email"];
+        $message = $_POST["message"];
 
-    // }else{
-    //     echo "Pas POST";
-    // }
+    }else{
+        echo "Pas POST";
+    }
 
 ?>
 <!doctype html>
@@ -23,11 +28,11 @@
 <body>
     <div id="formulaire"> 
         <form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
-            <input type="firstname" placeholder="Prénom" required>
-            <input type="lastname" placeholder="Nom" required>
-            <input type="subject" placeholder="Sujet" required>
-            <input type="email" placeholder="exemple@email.com" required>
-            <textarea name="message" id="" cols="30" rows="10" required placeholder="Votre message"></textarea>
+            <input type="firstname" value="<?php echo $firstname ?>"placeholder="Prénom" required>
+            <input type="lastname" value="<?php echo $lastname ?>" placeholder="Nom" required>
+            <input type="subject" value="<?php echo $subject ?>" placeholder="Sujet" required>
+            <input type="email" value="<?php echo $email ?>" placeholder="exemple@email.com" required>
+            <textarea name="message" id="" cols="30" rows="10" required placeholder="Votre message"><?php echo $message ?></textarea>
             <!-- <div id="select"> 
             <select name="date">
                 <option>1</option>
