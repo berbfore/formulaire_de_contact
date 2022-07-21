@@ -1,19 +1,25 @@
 <?php
     define("IS_DEBUG", $_SERVER["HTTP_HOST"] == "localhost" ? true : false);
 
-    $firstname = $lastname = $subject = $email = $message; 
+    $firstname = $lastname = $subject = $email = $message = ""; 
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
-        $firstname = $_POST["firstname"];
-        $lastname = $_POST["lastname"];
-        $subject = $_POST["subject"];
-        $email = $_POST["email"];
-        $message = $_POST["message"];
+        $firstname =  isset ($_POST["firstname"]) ? checkInput($_POST["firstname"]) : "";
+        $lastname = isset ($_POST["lastname"]) ? checkInput($_POST["lastname"]) : "";
+        $subject = isset ($_POST["subject"]) ? checkInput($_POST["subject"]) : "";
+        $email = isset ($_POST["email"]) ? checkInput($_POST["email"]) : "";
+        $message = isset ($_POST["message"]) ? checkInput($_POST["message"]) : "";
 
     }else{
         echo "Pas POST";
     }
 
+    function checkInput($input){
+        $input = trim($input);
+        $input = stripslashes($input);
+        $input = htmlspecialchars($input);
+        return $input;
+    }
 ?>
 <!doctype html>
 <html lang="fr">
@@ -28,10 +34,10 @@
 <body>
     <div id="formulaire"> 
         <form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
-            <input type="firstname" value="<?php echo $firstname ?>"placeholder="Prénom" required>
-            <input type="lastname" value="<?php echo $lastname ?>" placeholder="Nom" required>
-            <input type="subject" value="<?php echo $subject ?>" placeholder="Sujet" required>
-            <input type="email" value="<?php echo $email ?>" placeholder="exemple@email.com" required>
+            <input type="text" name="firstname" value="<?php echo $firstname ?>"placeholder="Prénom" required>
+            <input type="text" name="lastname" value="<?php echo $lastname ?>" placeholder="Nom" required>
+            <input type="text" name="subject" value="<?php echo $subject ?>" placeholder="Sujet" required>
+            <input type="text" name="email" value="<?php echo $email ?>" placeholder="exemple@email.com" required>
             <textarea name="message" id="" cols="30" rows="10" required placeholder="Votre message"><?php echo $message ?></textarea>
             <!-- <div id="select"> 
             <select name="date">
