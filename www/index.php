@@ -57,7 +57,7 @@
     }
 
     function getError($error){
-        $html = '<p class="error">' . $error . '</p>';
+        $html = '<h1 class="error">' . $error . '</h1>';
         return $html;
     }
 ?>
