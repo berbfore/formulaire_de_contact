@@ -1,3 +1,13 @@
+<?php
+    define("IS_DEBUG", $_SERVER["HTTP_HOST"] == "localhost" ? true : false);
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    }else{
+        echo "Pas POST";
+    }
+
+?>
 <!doctype html>
 <html lang="fr">
 
@@ -10,12 +20,12 @@
 
 <body>
     <div id="formulaire">
-        <form>
+        <form method="post" action="<?php echo $_SERVER["PHP_SELF"] ?>">
             
             <input type="firstname" placeholder="Prenom" required>
             <input type="name" placeholder="nom" required>
             <input type="subject" placeholder="sujet" required>
-            <input type="email" placeholder="exmemple@email.com" required>
+            <input type="email" placeholder="exemple@email.com" required>
             <div id="select"> 
             <select name="date">
                 <option>1</option>
