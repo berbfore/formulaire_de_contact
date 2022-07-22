@@ -10,21 +10,21 @@
         $firstname =  isset ($_POST["firstname"]) ? checkInput($_POST["firstname"]) : "";
         if (empty ($firstname)) {
             $firstnameError = "Veuillez renseigner votre prénom";
-            $noError = false;
+            // $noError = false; première façon de gérer les erreurs
         }
 
         //lastname
         $lastname = isset ($_POST["lastname"]) ? checkInput($_POST["lastname"]) : "";
         if (empty ($lastname)) {
             $lastnameError = "Veuillez renseigner votre nom";
-            $noError = false;
+            // $noError = false; première façon de gérer les erreurs
         }
 
         //sujet
         $subject = isset ($_POST["subject"]) ? checkInput($_POST["subject"]) : "";
         if (empty ($subject)) {
             $subjectError = "Veuillez renseigner le sujet";
-            $noError = false;
+            // $noError = false; première façon de gérer les erreurs
         }
 
         //email
@@ -35,8 +35,10 @@
         $message = isset ($_POST["message"]) ? checkInput($_POST["message"]) : "";
         if (empty ($message)) {
             $messageError = "Veuillez écrire votre message";
-            $noError = false;
+            // $noError = false; première façon de gérer les erreurs
         }
+
+        $noError = $firstnameError == "" && $lastnameError == "" && $subjectError == "" && $emailError == "" && $messageError == "";
 
     }else{
         echo "Pas POST";
@@ -136,6 +138,7 @@
             // </select>
             // </div> -->
             <input type="submit" value="ENVOYER">
+            <p class="message" style="display : none">Message envoyé</p>
         </form>
     </div>
 </body></html>
