@@ -51,6 +51,8 @@
         if ($noError) {
             $headers = "From: $firstname $lastname <$email>\r\nReply-To: $email";
             mail($emailTo, $subject, $emailText, $headers);
+
+            $firstname = $lastname = $subject = $email = $message = "";
         }
 
     }else{
