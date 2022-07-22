@@ -6,11 +6,15 @@
     
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         $noError = true;
+        $emailTo = "bdgozop@hotmail.com";
+        $emailText ="";
         //firstname
         $firstname =  isset ($_POST["firstname"]) ? checkInput($_POST["firstname"]) : "";
         if (empty ($firstname)) {
             $firstnameError = "Veuillez renseigner votre prénom";
             // $noError = false; première façon de gérer les erreurs
+        }else{
+            $emailText .= "Prénom : " . $firstname . "\n";
         }
 
         //lastname
@@ -18,6 +22,8 @@
         if (empty ($lastname)) {
             $lastnameError = "Veuillez renseigner votre nom";
             // $noError = false; première façon de gérer les erreurs
+        }else{
+            $emailText .= "Nom : " . $lastname . "\n";
         }
 
         //sujet
@@ -36,9 +42,16 @@
         if (empty ($message)) {
             $messageError = "Veuillez écrire votre message";
             // $noError = false; première façon de gérer les erreurs
+        }else{
+            $emailText .= "Message : " . $message . "\n";
         }
 
         $noError = $firstnameError == "" && $lastnameError == "" && $subjectError == "" && $emailError == "" && $messageError == "";
+
+        if ($noError) {
+            $headers = "From: $firstname $lastname <$email>\r\nReply-To: $email";
+            mail($emailTo, $subject, $emailText, $headers);
+        }
 
     }else{
         echo "Pas POST";
