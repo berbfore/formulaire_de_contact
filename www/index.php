@@ -61,6 +61,7 @@
         $input = trim($input);
         $input = stripslashes($input);
         $input = htmlspecialchars($input);
+        $input = utf8_encode($input);
         if (IS_DEBUG) {
             echo $input;
             echo "<br>";
