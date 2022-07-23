@@ -1,8 +1,10 @@
 <?php
-    define("IS_DEBUG", $_SERVER["HTTP_HOST"] == "localhost" ? true : false);
 
-    $firstname = $lastname = $subject = $email = $message = ""; 
-    $firstnameError = $lastnameError = $subjectError = $emailError = $messageError = "";
+    $getDebug = isset($_GET["debug"]) && $_GET["debug"] == true ? true : false;
+    define("IS_DEBUG", $_SERVER["HTTP_HOST"] == "localhost" || $getDebug ? true : false);
+
+    $firstname = $lastname = $subject = $email = $phone = $message = ""; 
+    $firstnameError = $lastnameError = $subjectError = $emailError = $phoneError = $messageError = "";
     
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         $noError = true;
@@ -38,6 +40,13 @@
         if(!isEmail($email)){
             $emailError = "Veuillez vérifier votre email.";
         }
+
+        //phone
+        $phone = isset ($_POST["phone"]) ? checkInput($_POST["phone"]) : "";
+        if(!isPhone($phone)){
+            $phoneError = "Veuillez vérifier votre numero.";
+        }
+
         $message = isset ($_POST["message"]) ? checkInput($_POST["message"]) : "";
         if (empty ($message)) {
             $messageError = "Veuillez écrire votre message";
@@ -46,13 +55,13 @@
             $emailText .= "Message : " . $message . "\n";
         }
 
-        $noError = $firstnameError == "" && $lastnameError == "" && $subjectError == "" && $emailError == "" && $messageError == "";
+        $noError = $firstnameError == "" && $lastnameError == "" && $subjectError == "" && $emailError == "" && $phoneError == "" && $messageError == "";
 
         if ($noError) {
-            $headers = "From: $firstname $lastname <$email>\r\nReply-To: $email";
-            mail($emailTo, $subject, $emailText, $headers);
+            $headers = "From: $firstname $lastname  $phone <$email>\r\nReply-To: $email";
+            mail($emailTo, $subject, $emailText, $phone, $headers);
 
-            $firstname = $lastname = $subject = $email = $message = "";
+            $firstname = $lastname = $subject = $email = $phone = $message = "";
         }
 
     }else{
@@ -74,6 +83,12 @@
     function isEmail($email){
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
+
+    //regex pour formatage du numero de tel
+    function isPhone($phone){
+        return preg_match("/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/", $phone);
+    }
+    
 
     function getError($error){
         $html = '<h1 class="error">' . $error . '</h1>';
@@ -115,11 +130,19 @@
                 }
             
             ?>
-            <input type="email" name="email" value="<?php echo $email ?>" placeholder="exemple@email.com" <?php echo !IS_DEBUG ? "required" : "" ?>>
-            <!-- <p class="error">Veuillez vérifier votre email</p> -->
+
+            <input type="email" placeholder="exemple@email.com" name="email" value="<?php echo $email ?>" <?php echo !IS_DEBUG ? "required" : "" ?> >
+            <?php 
+                if($emailError != ""){
+                    echo getError($emailError);   
+                }
+            ?>
+            
+            <input type="tel" name="phone" value="<?php echo $phone ?>" placeholder="0690 65-85-20" <?php echo !IS_DEBUG ? "required" : "" ?>>
+            <!-- <p class="error">Veuillez vérifier votre numéro</p> -->
             <?php
-                if($emailError !=""){
-                    echo getError($emailError);
+                if($phoneError !=""){
+                    echo getError($phoneError);
                 }
             
             ?>
